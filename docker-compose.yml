@@ -7,8 +7,6 @@ services:
     build:
       context: .
       dockerfile: ./infra/backend/Dockerfile
-    ports:
-      - "3001:3000"
     environment:
       - SERVER_NAME=app-01
     networks:
@@ -21,8 +19,6 @@ services:
     build:
       context: .
       dockerfile: ./infra/backend/Dockerfile
-    ports:
-      - "3002:3000"
     environment:
       - SERVER_NAME=app-02
     networks:
@@ -35,8 +31,6 @@ services:
     build:
       context: .
       dockerfile: ./infra/backend/Dockerfile
-    ports:
-      - "3003:3000"
     environment:
       - SERVER_NAME=app-03
     networks:
@@ -53,8 +47,6 @@ services:
       - "8080:80"
     networks:
       - lb-network
-    #volumes:
-    #  - ./infra/load-balancer/default.conf:/etc/nginx/templates/default.conf.template
     depends_on:
       - app-01
       - app-02
