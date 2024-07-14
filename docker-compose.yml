@@ -1,0 +1,65 @@
+version: '3.8'
+
+services:
+  app-01:
+    container_name: app-01
+    hostname: app-01
+    build:
+      context: .
+      dockerfile: ./infra/backend/Dockerfile
+    ports:
+      - "3001:3000"
+    environment:
+      - SERVER_NAME=app-01
+    networks:
+      - lb-network
+    restart: always
+
+  app-02:
+    container_name: app-02
+    hostname: app-02
+    build:
+      context: .
+      dockerfile: ./infra/backend/Dockerfile
+    ports:
+      - "3002:3000"
+    environment:
+      - SERVER_NAME=app-02
+    networks:
+      - lb-network
+    restart: always
+
+  app-03:
+    container_name: app-03
+    hostname: app-03
+    build:
+      context: .
+      dockerfile: ./infra/backend/Dockerfile
+    ports:
+      - "3003:3000"
+    environment:
+      - SERVER_NAME=app-03
+    networks:
+      - lb-network
+    restart: always
+
+  load-balancer:
+    container_name: load-balancer
+    hostname: load-balancer
+    build:
+      context: .
+      dockerfile: ./infra/load-balancer/Dockerfile
+    ports:
+      - "8080:80"
+    networks:
+      - lb-network
+    #volumes:
+    #  - ./infra/load-balancer/default.conf:/etc/nginx/templates/default.conf.template
+    depends_on:
+      - app-01
+      - app-02
+      - app-03
+
+networks:
+  lb-network:
+    driver: bridge
